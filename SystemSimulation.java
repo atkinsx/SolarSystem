@@ -1,10 +1,20 @@
 public class SystemSimulation extends SolarSystem
 {
+    private Star sun;
+    private Planet earth;
+    
     public SystemSimulation(int width, int height)
     {
         super(width, height);
-        drawStar();
-        drawPlanet();
+
+        sun = new Star(100, "#FFFF00", "Sun");
+        earth = new Planet(20, "#0000FF", "Earth");
+
+        //drawStar();
+        //drawPlanet();
+
+        sun.drawStar(this);
+        earth.drawPlanet(this);
     }
 
     public void drawStar()
