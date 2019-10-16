@@ -4,20 +4,14 @@ public class Planet extends CelestialBody
     private double a;
     private double e;
 
-    public Planet(double angle, double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
+    public Planet(double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
     {
-        super(angle, diameter, distance, velocity, colour, name, orbiting);
+        super(diameter, distance, velocity, colour, name, orbiting);
         //a = 149.60;
         //e = 0.0167086;
         a = 5;
         e = 0.6;
         System.out.println("Planet " + getName() + " created");
-    }
-
-    public void move(SystemSimulation mySystem)
-    {
-        mySystem.drawSolarObjectAbout(this.getDistance(), this.getAngle(), this.getDiameter(), this.getColour(), this.getOrbiting().getDistance(), this.getOrbiting().getAngle());
-        this.setAngle(this.getAngle() + this.getVelocity());
     }
 
     public void drawEllipticalOrbit(SystemSimulation mySystem)

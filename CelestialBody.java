@@ -8,10 +8,10 @@ public abstract class CelestialBody
     private String colour;
     private String name;
 
-    public CelestialBody(double angle, double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
+    public CelestialBody(double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
     {
         this.orbiting = orbiting;
-        this.angle = angle;
+        this.angle = Math.random() * 360;
         this.diameter = diameter;
         this.distance = distance;
         this.velocity = velocity;
@@ -19,7 +19,18 @@ public abstract class CelestialBody
         this.name = name;
     }
 
-    public abstract void move(SystemSimulation mySystem);
+    public void move(SystemSimulation mySystem)
+    {
+        if (this.getVelocity() == 0)
+        {
+            mySystem.drawSolarObject(this.getDistance(), this.getAngle(), this.getDiameter(), this.getColour());
+        }
+        else
+        {
+            mySystem.drawSolarObjectAbout(this.getDistance(), this.getAngle(), this.getDiameter(), this.getColour(), this.getOrbiting().getDistance(), this.getOrbiting().getAngle());
+            this.setAngle(this.getAngle() + this.getVelocity());
+        }
+    }
 
     public CelestialBody getOrbiting()
     {

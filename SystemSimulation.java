@@ -2,7 +2,11 @@ public class SystemSimulation extends SolarSystem
 {
     private CelestialBody[] entities;
     private int MAX_NO_OF_ENTITIES;
-    private Moon moon;
+    private int noOfEntities;
+    private int noOfMoons;
+    private int noOfPlanets;
+    //private int noOfStars;
+    private Moon[] moons;
     private Planet[] planets;
     private Star sun;
     //private Planet[] path;
@@ -11,6 +15,8 @@ public class SystemSimulation extends SolarSystem
     {
         super(width, height);
         MAX_NO_OF_ENTITIES = 1000;
+        noOfMoons = 3;//193;
+        noOfPlanets = 8;
 
         initialiseSystem();
         drawSystem();
@@ -18,20 +24,45 @@ public class SystemSimulation extends SolarSystem
 
     public void initialiseSystem()
     {
-        CelestialBody[] entities = new CelestialBody[MAX_NO_OF_ENTITIES];
-        sun = new Star(0, 100, 0, 0, "#FFFF00", "Sun", null);
-        planets = new Planet[8];
+        entities = new CelestialBody[MAX_NO_OF_ENTITIES];
 
-        planets[0] = new Planet(0, 20, 100, 0.2, "#AAAAAA", "Mercury", sun);
-        planets[1] = new Planet(0, 35, 200, 0.3, "#FF0000", "Venus", sun);
-        planets[2] = new Planet(0, 50, 300, 0.7, "#0088CC", "Earth", sun);
-        planets[3] = new Planet(0, 20, 400, 0.5, "#FFAA00", "Mars", sun);
-        planets[4] = new Planet(0, 35, 500, 0.2, "#FFDDCC", "Jupiter", sun);
-        planets[5] = new Planet(0, 50, 600, 1, "#BBBB88", "Saturn", sun);
-        planets[6] = new Planet(0, 20, 700, 0.9, "#00CCCC", "Uranus", sun);
-        planets[7] = new Planet(0, 35, 800, 1, "#0000FF", "Neptune", sun);
+        sun = new Star(100, 0, 0, "#FFFF00", "Sun", null);
+        addObjectToEntities(sun);
 
-        moon = new Moon(0, 5, 50, 2, "#DDDDDD", "Luna", planets[2]);
+        planets = new Planet[noOfPlanets];
+        moons = new Moon[noOfMoons];
+
+        planets[0] = new Planet(20, 100, 0.2, "#AAAAAA", "Mercury", sun);
+        planets[1] = new Planet(35, 200, 0.3, "#FF0000", "Venus", sun);
+        planets[2] = new Planet(50, 300, 0.7, "#0088CC", "Earth", sun);
+        planets[3] = new Planet(20, 400, 0.5, "#FFAA00", "Mars", sun);
+        planets[4] = new Planet(35, 500, 0.2, "#FFDDCC", "Jupiter", sun);
+        planets[5] = new Planet(50, 600, 1, "#BBBB88", "Saturn", sun);
+        planets[6] = new Planet(20, 700, 0.9, "#00CCCC", "Uranus", sun);
+        planets[7] = new Planet(35, 800, 1, "#0000FF", "Neptune", sun);
+
+        for (int i = 0; i < noOfPlanets; i++)
+        {
+            addObjectToEntities(planets[i]);
+        }
+
+        moons[0] = new Moon(5, 50, 2, "#DDDDDD", "Luna", planets[2]);
+        moons[1] = new Moon(5, 75, 0.7, "#DDDDDD", "Phobos", planets[3]);
+        moons[2] = new Moon(5, 50, 2, "#DDDDDD", "Deimos", planets[3]);
+        //79 moons around Jupiter
+        //62 moons around Saturn
+        //27 moons around Uranus
+        //14 moons around Neptune
+
+        for (int i = 0; i < noOfMoons; i++)
+        {
+            addObjectToEntities(moons[i]);
+        }
+
+        for (int i = 0; i < noOfEntities; i++)
+        {
+            System.out.println(entities[i].getName());
+        }
 
         // path = new Planet[360];
 
@@ -46,17 +77,32 @@ public class SystemSimulation extends SolarSystem
         while(true)
         {
             finishedDrawing();
-            sun.move(this);
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < noOfEntities; i++)
             {
-                planets[i].move(this);
+                entities[i].move(this);
             }
 
-            moon.move(this);
+            // sun.move(this);
+
+            // for (int i = 0; i < noOfPlanets; i++)
+            // {
+            //     planets[i].move(this);
+            // }
+
+            // for (int i = 0; i < noOfMoons; i++)
+            // {
+            //     moons[i].move(this);
+            // }
 
             //drawPath();
         }
+    }
+
+    public void addObjectToEntities(CelestialBody input)
+    {
+        entities[noOfEntities] = input;
+        noOfEntities++;
     }
 
     // public void drawPath()
