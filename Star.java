@@ -5,7 +5,7 @@ public class Star extends CelestialBody
         super(angle, diameter, distance, velocity, colour, name);
     }
 
-    public void drawStar(SystemSimulation mySystem)
+    public void move(SystemSimulation mySystem)
     {
         mySystem.drawSolarObject(0, 0, 100, "#FFFF00");
     }

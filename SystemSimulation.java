@@ -9,19 +9,7 @@ public class SystemSimulation extends SolarSystem
         super(width, height);
 
         initialiseSystem();
-
-        while(true)
-        {
-            finishedDrawing();
-            sun.drawStar(this);
-
-            for (int i = 0; i < 8; i++)
-            {
-                planets[i].drawPlanet(this);
-            }
-
-            //drawPath();
-        }
+        drawSystem();
     }
 
     public void initialiseSystem()
@@ -46,21 +34,27 @@ public class SystemSimulation extends SolarSystem
         // }
     }
 
-    public void drawStar()
+    public void drawSystem()
     {
-        drawSolarObject(0, 0, 100, "#FFFF00");
-    }
-
-    public void drawPlanet()
-    {
-        drawSolarObjectAbout(200, 0, 20, "#0000FF", 0, 0);
-    }
-
-    public void drawPath()
-    {
-        for (int i = 0; i < 360; i++)
+        while(true)
         {
-            //path[i].drawEllipticalPlanet(this);
+            finishedDrawing();
+            sun.move(this);
+
+            for (int i = 0; i < 8; i++)
+            {
+                planets[i].move(this);
+            }
+
+            //drawPath();
         }
     }
+
+    // public void drawPath()
+    // {
+    //     for (int i = 0; i < 360; i++)
+    //     {
+    //         path[i].drawEllipticalOrbit(this);
+    //     }
+    // }
 }

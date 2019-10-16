@@ -4,4 +4,10 @@ public class Moon extends CelestialBody
     {
         super(angle, diameter, distance, velocity, colour, name);
     }
+
+    public void move(SystemSimulation mySystem)
+    {
+        mySystem.drawSolarObjectAbout(this.getDistance(), this.getAngle(), this.getDiameter(), this.getColour(), 0, 0);
+        this.setAngle(this.getAngle() + this.getVelocity());
+    }
 }

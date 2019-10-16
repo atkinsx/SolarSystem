@@ -1,4 +1,4 @@
-public class CelestialBody
+public abstract class CelestialBody
 {
     private double angle;
     private double diameter;
@@ -16,6 +16,8 @@ public class CelestialBody
         this.colour = colour;
         this.name = name;
     }
+
+    public abstract void move(SystemSimulation mySystem);
 
     public double getAngle()
     {
