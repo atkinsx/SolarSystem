@@ -26,24 +26,23 @@ public class SystemSimulation extends SolarSystem
 
     public void initialiseSystem()
     {
-        sun = new Star(100, "#FFFF00", "Sun");
+        sun = new Star(0, 100, 0, 0, "#FFFF00", "Sun");
         planets = new Planet[8];
 
-        planets[0] = new Planet(100, 20, "#AAAAAA", "Mercury");
-        planets[1] = new Planet(200, 35, "#FF0000", "Venus");
-        planets[2] = new Planet(300, 50, "#0088CC", "Earth");
-        planets[3] = new Planet(400, 20, "#FFAA00", "Mars");
-        planets[4] = new Planet(500, 35, "#FFDDCC", "Jupiter");
-        planets[5] = new Planet(600, 50, "#BBBB88", "Saturn");
-        planets[6] = new Planet(700, 20, "#00CCCC", "Uranus");
-        planets[7] = new Planet(800, 35, "#0000FF", "Neptune");
+        planets[0] = new Planet(0, 20, 100, 2, "#AAAAAA", "Mercury");
+        planets[1] = new Planet(0, 35, 200, 3, "#FF0000", "Venus");
+        planets[2] = new Planet(0, 50, 300, 1, "#0088CC", "Earth");
+        planets[3] = new Planet(0, 20, 400, 5, "#FFAA00", "Mars");
+        planets[4] = new Planet(0, 35, 500, 2, "#FFDDCC", "Jupiter");
+        planets[5] = new Planet(0, 50, 600, 1, "#BBBB88", "Saturn");
+        planets[6] = new Planet(0, 20, 700, 13, "#00CCCC", "Uranus");
+        planets[7] = new Planet(0, 35, 800, 23, "#0000FF", "Neptune");
 
         // path = new Planet[360];
 
         // for (int i = 0; i < 360; i++)
         // {
-        //     path[i] = new Planet(20, "#FFFFFF", "path");
-        //     path[i].setAngle(i);
+        //     path[i] = new Planet(i, 50, 300, 1, "#0088CC", "Earth Path");
         // }
     }
 

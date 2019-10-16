@@ -1,8 +1,8 @@
 public class Star extends CelestialBody
 {
-    public Star(double diameter, String colour, String name)
+    public Star(double angle, double diameter, double distance, double velocity, String colour, String name)
     {
-        super(diameter, colour, name);
+        super(angle, diameter, distance, velocity, colour, name);
     }
 
     public void drawStar(SystemSimulation mySystem)

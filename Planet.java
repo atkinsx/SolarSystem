@@ -1,17 +1,14 @@
 public class Planet extends CelestialBody
 {
-    private double angle;
-    private double distance;
-
     private double r;
     private double a;
     private double e;
 
-    public Planet(double distance, double diameter, String colour, String name)
+    public Planet(double angle, double diameter, double distance, double velocity, String colour, String name)
     {
-        super(diameter, colour, name);
-        this.distance = distance;
-        angle = 0;
+        super(angle, diameter, distance, velocity, colour, name);
+        this.setDistance(distance);
+        //angle = 0;
         //a = 149.60;
         //e = 0.0167086;
         a = 5;
@@ -21,22 +18,17 @@ public class Planet extends CelestialBody
 
     public void drawPlanet(SystemSimulation mySystem)
     {
-        this.angle++;
-        mySystem.drawSolarObjectAbout(this.distance, this.angle, this.getDiameter(), this.getColour(), 0, 0);
+        mySystem.drawSolarObjectAbout(this.getDistance(), this.getAngle(), this.getDiameter(), this.getColour(), 0, 0);
+        this.setAngle(this.getAngle() + this.getVelocity());
     }
 
     public void drawEllipticalPlanet(SystemSimulation mySystem)
     {
-        double radians = Math.toRadians(angle);
-        this.angle++;
+        double radians = Math.toRadians(this.getAngle());
+        this.setAngle(this.getAngle() + this.getVelocity());
         this.r = (a * (1 - e * e)) / (1 + (e * Math.cos(radians)));
         this.r *= 50;
         System.out.println("Distance: " + r);
-        mySystem.drawSolarObjectAbout(this.r, this.angle, 20, "#0000FF", 0, 0);
-    }
-
-    public void setAngle(double input)
-    {
-        this.angle = input;
+        mySystem.drawSolarObjectAbout(this.r, this.getAngle(), 20, "#0000FF", 0, 0);
     }
 }
