@@ -1,5 +1,6 @@
 public abstract class CelestialBody
 {
+    private CelestialBody orbiting;
     private double angle;
     private double diameter;
     private double distance;
@@ -7,8 +8,9 @@ public abstract class CelestialBody
     private String colour;
     private String name;
 
-    public CelestialBody(double angle, double diameter, double distance, double velocity, String colour, String name)
+    public CelestialBody(double angle, double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
     {
+        this.orbiting = orbiting;
         this.angle = angle;
         this.diameter = diameter;
         this.distance = distance;
@@ -18,6 +20,11 @@ public abstract class CelestialBody
     }
 
     public abstract void move(SystemSimulation mySystem);
+
+    public CelestialBody getOrbiting()
+    {
+        return this.orbiting;
+    }
 
     public double getAngle()
     {
@@ -47,6 +54,11 @@ public abstract class CelestialBody
     public String getName()
     {
         return this.name;
+    }
+
+    public void setOrbiting(CelestialBody input)
+    {
+        this.orbiting = input;
     }
 
     public void setAngle(double input)
