@@ -1,6 +1,10 @@
+import java.awt.event.*;
+import javax.swing.*;
+
 public class SystemSimulation extends SolarSystem
 {
     private CelestialBody[] entities;
+    private DBReader reader;
     private int MAX_NO_OF_ENTITIES;
     private int noOfEntities;
     private int noOfMoons;
@@ -9,24 +13,49 @@ public class SystemSimulation extends SolarSystem
     private Moon[] moons;
     private Planet[] planets;
     private Star sun;
-    //private Planet[] path;
+    private String systemName;
     
-    public SystemSimulation(int width, int height)
+    public SystemSimulation(int width, int height, String systemName)
     {
         super(width, height);
+        this.systemName = systemName;
+
         MAX_NO_OF_ENTITIES = 1000;
-        noOfMoons = 3;//193;
-        noOfPlanets = 8;
+
+        connectToDatabase();
+        reader.getAllTableNames();
 
         initialiseSystem();
         drawSystem();
+
+        reader.closeConnection();
+    }
+
+    public void connectToDatabase()
+    {
+        boolean hasConnected = false;
+        
+        reader = new DBReader(systemName);
+        hasConnected = reader.connect();
+
+        if (hasConnected)
+        {
+            System.out.println("Nice");
+        }
+        else
+        {
+            String input = "No database found. Closing program.";
+            forceQuit(input);
+        }
     }
 
     public void initialiseSystem()
     {
+        noOfMoons = 3;//193;
+        noOfPlanets = 8;
         entities = new CelestialBody[MAX_NO_OF_ENTITIES];
 
-        sun = new Star(100, 0, 0, "#FFFF00", "Sun", null);
+        sun = new Star(100, 0, 0, "#FFFF00", "Sol", null);
         addObjectToEntities(sun);
 
         planets = new Planet[noOfPlanets];
@@ -59,16 +88,9 @@ public class SystemSimulation extends SolarSystem
             addObjectToEntities(moons[i]);
         }
 
-        for (int i = 0; i < noOfEntities; i++)
-        {
-            System.out.println(entities[i].getName());
-        }
-
-        // path = new Planet[360];
-
-        // for (int i = 0; i < 360; i++)
+        // for (int i = 0; i < noOfEntities; i++)
         // {
-        //     path[i] = new Planet(i, 50, 300, 1, "#0088CC", "Earth Path");
+        //     System.out.println(entities[i].getName());
         // }
     }
 
@@ -82,20 +104,6 @@ public class SystemSimulation extends SolarSystem
             {
                 entities[i].move(this);
             }
-
-            // sun.move(this);
-
-            // for (int i = 0; i < noOfPlanets; i++)
-            // {
-            //     planets[i].move(this);
-            // }
-
-            // for (int i = 0; i < noOfMoons; i++)
-            // {
-            //     moons[i].move(this);
-            // }
-
-            //drawPath();
         }
     }
 
@@ -105,11 +113,12 @@ public class SystemSimulation extends SolarSystem
         noOfEntities++;
     }
 
-    // public void drawPath()
-    // {
-    //     for (int i = 0; i < 360; i++)
-    //     {
-    //         path[i].drawEllipticalOrbit(this);
-    //     }
-    // }
+    public void forceQuit(String error)
+    {
+        WindowEvent end = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+
+        int errorBox = JOptionPane.showConfirmDialog(null, error, "ERROR", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+        
+        this.dispatchEvent(end);
+    }
 }
