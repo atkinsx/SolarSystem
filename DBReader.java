@@ -64,6 +64,7 @@ public class DBReader
         }
     }
 
+    //MIGHT BE A BETTER WAY OF DOING THIS USING SQL COMMANDS
     public ResultSet getTable(String tableName)
     {
         try
@@ -125,15 +126,31 @@ public class DBReader
             return 0;
         }
     }
-
-    public String returnString(String table, int id)
+    
+    public int returnInteger(String property, String table, int id)
     {
         try
         {
-            String query = "SELECT colour FROM " + table + " WHERE id = " + id;
+            String query = "SELECT " + property + " FROM " + table + " WHERE id = " + id + ";";
             ResultSet resultSet = connection.createStatement().executeQuery(query);
 
-            return resultSet.getString("colour");
+            return resultSet.getInt(property);
+        }
+        catch (SQLException e)
+        {
+            System.out.println("ERROR 5: " + e.getMessage());
+            return -1;
+        }
+    }
+
+    public String returnString(String property, String table, int id)
+    {
+        try
+        {
+            String query = "SELECT " + property + " FROM " + table + " WHERE id = " + id + ";";
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+
+            return resultSet.getString(property);
         }
         catch (SQLException e)
         {

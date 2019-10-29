@@ -1,12 +1,41 @@
 public abstract class CelestialBody
 {
     private CelestialBody orbiting;
+    private DBReader database;
     private double angle;
     private double diameter;
     private double distance;
     private double velocity;
+    private int tableID;
     private String colour;
     private String name;
+
+    /*
+    WHAT IF
+    THE GETTERS GOT FROM THE DB?!
+    Also means no parameters in constructor?!
+    Still do all the reading in the constructor though
+    But then that's not very flexible I guess
+    Maybe inheritance to make it read db by default
+    OR use an interface of some kind
+    IDK
+    */
+
+    public CelestialBody(DBReader database, int id)
+    {
+        this.database = database;
+        this.tableID = id;
+        this.readName();
+        this.readColour();
+        this.orbiting = null;
+        this.readDiameter();
+        this.readDistance();
+        this.readVelocity();
+
+
+        this.angle = Math.random() * 360;
+        System.out.println(this.getClass().getSimpleName() + " " + this.name + " created");
+    }
 
     public CelestialBody(double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
     {
@@ -17,6 +46,7 @@ public abstract class CelestialBody
         this.velocity = velocity;
         this.colour = colour;
         this.name = name;
+        System.out.println(this.getClass().getSimpleName() + " " + this.name + " created");
     }
 
     public void move(SystemSimulation mySystem)
@@ -100,5 +130,35 @@ public abstract class CelestialBody
     public void setName(String input)
     {
         this.name = input;
+    }
+
+    public void readDiameter()
+    {
+        String type = this.getClass().getSimpleName();
+        this.diameter = database.returnInteger("diameter", type, this.tableID);
+    }
+
+    public void readDistance()
+    {
+        String type = this.getClass().getSimpleName();
+        this.distance = database.returnInteger("distance", type, this.tableID);
+    }
+
+    public void readVelocity()
+    {
+        String type = this.getClass().getSimpleName();
+        this.velocity = database.returnInteger("velocity", type, this.tableID);
+    }
+
+    public void readColour()
+    {
+        String type = this.getClass().getSimpleName();
+        this.colour = database.returnString("colour", type, this.tableID);
+    }
+
+    public void readName()
+    {
+        String type = this.getClass().getSimpleName();
+        this.name = database.returnString("name", type, this.tableID);
     }
 }

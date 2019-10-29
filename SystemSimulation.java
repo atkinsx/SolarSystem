@@ -51,27 +51,26 @@ public class SystemSimulation extends SolarSystem
     public void initialiseSystem()
     {
         noOfStars = reader.getNoOfRecords("Star");
-        noOfPlanets = reader.getNoOfRecords("Planet");//8;
+        noOfPlanets = reader.getNoOfRecords("Planet");
         noOfMoons = 3;//193;
         entities = new CelestialBody[MAX_NO_OF_ENTITIES];
 
         createEntities();
 
-        //System.out.println(sun.getClass().getSimpleName());
-        sun = new Star(100, 0, 0, reader.returnString("Star", 1), "Sol", null);
-        addObjectToEntities(sun);
+        //sun = new Star(100, 0, 0, reader.returnString("Star", 1), "Sol", null);
+        //addObjectToEntities(sun);
 
         planets = new Planet[noOfPlanets];
         moons = new Moon[noOfMoons];
 
-        planets[0] = new Planet(20, 100, 0.2, "#AAAAAA", "Mercury", sun);
-        planets[1] = new Planet(35, 200, 0.3, "#FF0000", "Venus", sun);
-        planets[2] = new Planet(50, 300, 0.7, "#0088CC", "Earth", sun);
-        planets[3] = new Planet(20, 400, 0.5, "#FFAA00", "Mars", sun);
-        planets[4] = new Planet(35, 500, 0.2, "#FFDDCC", "Jupiter", sun);
-        planets[5] = new Planet(50, 600, 1, "#BBBB88", "Saturn", sun);
-        planets[6] = new Planet(20, 700, 0.9, "#00CCCC", "Uranus", sun);
-        planets[7] = new Planet(35, 800, 1, "#0000FF", "Neptune", sun);
+        planets[0] = new Planet(20, 100, 0.2, "#AAAAAA", "Mercury", entities[0]);
+        planets[1] = new Planet(35, 200, 0.3, "#FF0000", "Venus", entities[0]);
+        planets[2] = new Planet(50, 300, 0.7, "#0088CC", "Earth", entities[0]);
+        planets[3] = new Planet(20, 400, 0.5, "#FFAA00", "Mars", entities[0]);
+        planets[4] = new Planet(35, 500, 0.2, "#FFDDCC", "Jupiter", entities[0]);
+        planets[5] = new Planet(50, 600, 1, "#BBBB88", "Saturn", entities[0]);
+        planets[6] = new Planet(20, 700, 0.9, "#00CCCC", "Uranus", entities[0]);
+        planets[7] = new Planet(35, 800, 1, "#0000FF", "Neptune", entities[0]);
 
         for (int i = 0; i < noOfPlanets; i++)
         {
@@ -103,7 +102,7 @@ public class SystemSimulation extends SolarSystem
         {
             for (int i = 0; i < noOfStars; i++)
             {
-                //createNewStar();
+                createNewStar(i+1);
                 //System.out.println(i);
             }
         }
@@ -112,7 +111,7 @@ public class SystemSimulation extends SolarSystem
         {
             for (int i = 0; i < reader.getNoOfRecords("Planet"); i++)
             {
-                //createNewStar();
+                //createNewPlanet(i+1);
                 //System.out.println(i);
             }
         }
@@ -121,11 +120,20 @@ public class SystemSimulation extends SolarSystem
         {
             //System.out.println("MOON");
         }
+
+        //System.out.println("FLAG 1");
     }
 
-    public void createNewStar()
+    //MAYBE CAN IMPLEMENT WITH GENERICS?
+    public void createNewStar(int id)
     {
-        //entities[noOfEntities] = new Star();
+        entities[noOfEntities] = new Star(reader, id); //= new Star(100, 0, 0, reader.returnString("colour", "Star", 1), "Sol", null);
+        noOfEntities++;
+    }
+
+    public void createNewPlanet(int id)
+    {
+        entities[noOfEntities] = new Planet(reader, id);
         noOfEntities++;
     }
 
