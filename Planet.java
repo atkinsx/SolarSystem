@@ -11,7 +11,7 @@ public class Planet extends CelestialBody
         //e = 0.0167086;
         a = 5;
         e = 0.6;
-        System.out.println("Planet " + getName() + " created");
+        //System.out.println("Planet " + getName() + " created");
     }
 
     public void drawEllipticalOrbit(SystemSimulation mySystem)

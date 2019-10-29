@@ -64,20 +64,81 @@ public class DBReader
         }
     }
 
-    public void getAllTableNames()
+    public ResultSet getTable(String tableName)
     {
         try
         {
-            ResultSet resultSet = connection.getMetaData().getTables(null, null, "%", null);
+            ResultSet resultSet = connection.getMetaData().getTables(null, null, tableName, null);
 
-            while (resultSet.next())
-            {
-                System.out.println(resultSet.getString("TABLE_NAME"));
-            }
+            return resultSet;
         }
         catch (SQLException e)
         {
             System.out.println("ERROR 3: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public boolean doesTableExist(String tableName)
+    {
+        try
+        {
+            ResultSet resultSet = this.getTable("%");
+
+            while (resultSet.next())
+            {
+                if (resultSet.getString("TABLE_NAME").equals(tableName))
+                {
+                    return true;
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println("ERROR 4: " + e.getMessage());
+            return false;
+        }
+
+        return false;
+    }
+
+    public int getNoOfRecords(String input)
+    {
+        if (this.doesTableExist(input))
+        {
+            try
+            {
+                String recordName = "count(id)";
+                ResultSet resultSet = connection.createStatement().executeQuery("SELECT " + recordName + " FROM " + input);
+                int count = resultSet.getInt(recordName);
+
+                return count;
+            }
+            catch (SQLException e)
+            {
+                System.out.println("ERROR 4: " + e.getMessage());
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public String returnString(String table, int id)
+    {
+        try
+        {
+            String query = "SELECT colour FROM " + table + " WHERE id = " + id;
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+
+            return resultSet.getString("colour");
+        }
+        catch (SQLException e)
+        {
+            System.out.println("ERROR 5: " + e.getMessage());
+            return "failed";
         }
     }
 }

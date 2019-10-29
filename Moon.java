@@ -4,6 +4,6 @@ public class Moon extends CelestialBody
     {
         super(diameter, distance, velocity, colour, name, orbiting);
 
-        System.out.println("Moon " + getName() + " created");
+        //System.out.println("Moon " + getName() + " created");
     }
 }

@@ -9,7 +9,7 @@ public class SystemSimulation extends SolarSystem
     private int noOfEntities;
     private int noOfMoons;
     private int noOfPlanets;
-    //private int noOfStars;
+    private int noOfStars;
     private Moon[] moons;
     private Planet[] planets;
     private Star sun;
@@ -23,7 +23,10 @@ public class SystemSimulation extends SolarSystem
         MAX_NO_OF_ENTITIES = 1000;
 
         connectToDatabase();
-        reader.getAllTableNames();
+        //reader.getAllTableNames();
+        //System.out.println(reader.returnString("Star", 1));
+
+        //
 
         initialiseSystem();
         drawSystem();
@@ -38,11 +41,7 @@ public class SystemSimulation extends SolarSystem
         reader = new DBReader(systemName);
         hasConnected = reader.connect();
 
-        if (hasConnected)
-        {
-            System.out.println("Nice");
-        }
-        else
+        if (!hasConnected)
         {
             String input = "No database found. Closing program.";
             forceQuit(input);
@@ -51,11 +50,15 @@ public class SystemSimulation extends SolarSystem
 
     public void initialiseSystem()
     {
+        noOfStars = reader.getNoOfRecords("Star");
+        noOfPlanets = reader.getNoOfRecords("Planet");//8;
         noOfMoons = 3;//193;
-        noOfPlanets = 8;
         entities = new CelestialBody[MAX_NO_OF_ENTITIES];
 
-        sun = new Star(100, 0, 0, "#FFFF00", "Sol", null);
+        createEntities();
+
+        //System.out.println(sun.getClass().getSimpleName());
+        sun = new Star(100, 0, 0, reader.returnString("Star", 1), "Sol", null);
         addObjectToEntities(sun);
 
         planets = new Planet[noOfPlanets];
@@ -92,6 +95,38 @@ public class SystemSimulation extends SolarSystem
         // {
         //     System.out.println(entities[i].getName());
         // }
+    }
+
+    public void createEntities()
+    {
+        if (reader.doesTableExist("Star"))
+        {
+            for (int i = 0; i < noOfStars; i++)
+            {
+                //createNewStar();
+                //System.out.println(i);
+            }
+        }
+
+        if (reader.doesTableExist("Planet"))
+        {
+            for (int i = 0; i < reader.getNoOfRecords("Planet"); i++)
+            {
+                //createNewStar();
+                //System.out.println(i);
+            }
+        }
+
+        if (reader.doesTableExist("Moon"))
+        {
+            //System.out.println("MOON");
+        }
+    }
+
+    public void createNewStar()
+    {
+        //entities[noOfEntities] = new Star();
+        noOfEntities++;
     }
 
     public void drawSystem()

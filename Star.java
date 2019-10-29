@@ -4,6 +4,6 @@ public class Star extends CelestialBody
     {
         super(diameter, distance, velocity, colour, name, orbiting);
 
-        System.out.println("Star " + getName() + " created");
+        //System.out.println("Star " + getName() + " created");
     }
 }
