@@ -126,15 +126,31 @@ public class DBReader
             return 0;
         }
     }
-    
-    public int returnInteger(String property, String table, int id)
+
+    public double returnDouble(String attribute, String table, int id)
     {
         try
         {
-            String query = "SELECT " + property + " FROM " + table + " WHERE id = " + id + ";";
+            String query = "SELECT " + attribute + " FROM " + table + " WHERE id = " + id + ";";
             ResultSet resultSet = connection.createStatement().executeQuery(query);
 
-            return resultSet.getInt(property);
+            return resultSet.getDouble(attribute);
+        }
+        catch (SQLException e)
+        {
+            System.out.println("ERROR 5: " + e.getMessage());
+            return -1;
+        }
+    }
+    
+    public int returnInteger(String attribute, String table, int id)
+    {
+        try
+        {
+            String query = "SELECT " + attribute + " FROM " + table + " WHERE id = " + id + ";";
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+
+            return resultSet.getInt(attribute);
         }
         catch (SQLException e)
         {
@@ -143,14 +159,14 @@ public class DBReader
         }
     }
 
-    public String returnString(String property, String table, int id)
+    public String returnString(String attribute, String table, int id)
     {
         try
         {
-            String query = "SELECT " + property + " FROM " + table + " WHERE id = " + id + ";";
+            String query = "SELECT " + attribute + " FROM " + table + " WHERE id = " + id + ";";
             ResultSet resultSet = connection.createStatement().executeQuery(query);
 
-            return resultSet.getString(property);
+            return resultSet.getString(attribute);
         }
         catch (SQLException e)
         {

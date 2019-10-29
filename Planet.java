@@ -1,14 +1,13 @@
 public class Planet extends CelestialBody
 {
-    public Planet(DBReader database, int id)
+    public Planet(CelestialBody[] system, DBReader database, int id)
     {
-        super(database, id);
+        super(system, database, id);
     }
 
     public Planet(double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
     {
         super(diameter, distance, velocity, colour, name, orbiting);
-        //System.out.println("Planet " + getName() + " created");
     }
 
     // public void drawEllipticalOrbit(SystemSimulation mySystem)

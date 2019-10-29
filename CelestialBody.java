@@ -1,6 +1,7 @@
 public abstract class CelestialBody
 {
     private CelestialBody orbiting;
+    private CelestialBody[] system;
     private DBReader database;
     private double angle;
     private double diameter;
@@ -10,42 +11,30 @@ public abstract class CelestialBody
     private String colour;
     private String name;
 
-    /*
-    WHAT IF
-    THE GETTERS GOT FROM THE DB?!
-    Also means no parameters in constructor?!
-    Still do all the reading in the constructor though
-    But then that's not very flexible I guess
-    Maybe inheritance to make it read db by default
-    OR use an interface of some kind
-    IDK
-    */
-
-    public CelestialBody(DBReader database, int id)
+    public CelestialBody(CelestialBody[] system, DBReader database, int id)
     {
         this.database = database;
+        this.system = system;
         this.tableID = id;
         this.readName();
         this.readColour();
-        this.orbiting = null;
+        this.readOrbiting();
         this.readDiameter();
         this.readDistance();
         this.readVelocity();
-
-
         this.angle = Math.random() * 360;
         System.out.println(this.getClass().getSimpleName() + " " + this.name + " created");
     }
 
     public CelestialBody(double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
     {
-        this.orbiting = orbiting;
-        this.angle = Math.random() * 360;
         this.diameter = diameter;
         this.distance = distance;
         this.velocity = velocity;
         this.colour = colour;
         this.name = name;
+        this.orbiting = orbiting;
+        this.angle = Math.random() * 360;
         System.out.println(this.getClass().getSimpleName() + " " + this.name + " created");
     }
 
@@ -132,22 +121,42 @@ public abstract class CelestialBody
         this.name = input;
     }
 
+    public void readOrbiting()
+    {
+        String type = this.getClass().getSimpleName();
+        int orbitingID = database.returnInteger("orbiting", type, this.tableID);
+        String orbitingType = database.returnString("orbitingType", type, this.tableID);
+        int count = 0;
+        boolean found = false;
+
+        while (system[count] != null && !found)
+        {
+            if (system[count].tableID == orbitingID && system[count].getClass().getSimpleName().equals(orbitingType))
+            {
+                this.orbiting = system[count];
+                found = true;
+            }
+
+            count++;
+        }
+    }
+
     public void readDiameter()
     {
         String type = this.getClass().getSimpleName();
-        this.diameter = database.returnInteger("diameter", type, this.tableID);
+        this.diameter = database.returnDouble("diameter", type, this.tableID);
     }
 
     public void readDistance()
     {
         String type = this.getClass().getSimpleName();
-        this.distance = database.returnInteger("distance", type, this.tableID);
+        this.distance = database.returnDouble("distance", type, this.tableID);
     }
 
     public void readVelocity()
     {
         String type = this.getClass().getSimpleName();
-        this.velocity = database.returnInteger("velocity", type, this.tableID);
+        this.velocity = database.returnDouble("velocity", type, this.tableID);
     }
 
     public void readColour()
