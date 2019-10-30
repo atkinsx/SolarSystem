@@ -3,9 +3,10 @@ import javax.swing.*;
 
 public class SystemSimulation extends SolarSystem
 {
+    private final int MAX_NO_OF_ENTITIES;
+    
     private CelestialBody[] entities;
     private DBReader reader;
-    private int MAX_NO_OF_ENTITIES;
     private int noOfEntities;
     private int noOfMoons;
     private int noOfPlanets;

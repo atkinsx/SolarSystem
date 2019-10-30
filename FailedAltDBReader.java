@@ -1,53 +1,15 @@
 import java.sql.*;
 import java.io.*;
 
-public class DBReader
+public class FailedAltDBReader
 {
     private String filename;
     private Connection connection;
+    private ResultSet resultSet;
 
-    public DBReader(String filename)
+    public FailedAltDBReader(String filename)
     {
         this.filename = filename;
-    }
-
-    public boolean connect()
-    {
-        if (doesFileExist(this.filename))
-        {
-            try
-            {
-                String url = "jdbc:sqlite:systems/" + this.filename + ".db";
-                connection = DriverManager.getConnection(url);
-                System.out.println("Database connection successful.");
-                return true;
-            }
-            catch (SQLException e)
-            {
-                System.out.println("ERROR 1: " + e.getMessage());
-                return false;
-            }
-        }
-        else
-        {
-            System.out.println("Cannot connect to database: file does not exist.");
-            return false;
-        }
-    }
-
-    public void closeConnection()
-    {
-        try
-        {
-            if (connection != null)
-            {
-                connection.close();
-            }
-        }
-        catch (SQLException e)
-        {
-            System.out.println("ERROR 2: " + e.getMessage());
-        }
     }
 
     public boolean doesFileExist(String input)
@@ -64,20 +26,96 @@ public class DBReader
         }
     }
 
-    //MIGHT BE A BETTER WAY OF DOING THIS USING SQL COMMANDS
-    public ResultSet getTable(String tableName)
+    public boolean isNoException(int input)
     {
         try
-        {
-            ResultSet resultSet = connection.getMetaData().getTables(null, null, tableName, null);
+            {
+                switch (input)
+                {
+                    case 1:
+                        continueConnect();
+                    break;
+                    case 2:
+                        continueCloseConnection();
+                    break;
+                    case 3:
+                        continueGetTable();
+                    break;
+                    default:
+                        return false;
+                }
 
+                return true;
+            }
+            catch (SQLException e)
+            {
+                System.out.println("ERROR: " + e.getMessage());
+                return false;
+            }
+    }
+
+    public boolean connect()
+    {
+        if (doesFileExist(this.filename))
+        {
+            if (isNoException(1))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            System.out.println("Cannot connect to database: file does not exist.");
+            return false;
+        }
+    }
+
+    public void continueConnect() throws SQLException
+    {
+        String url = "jdbc:sqlite:systems/" + this.filename + ".db";
+        connection = DriverManager.getConnection(url);
+        System.out.println("Database connection successful.");
+    }
+
+    public void closeConnection()
+    {
+        if (isNoException(2))
+        {
+            System.out.println("Connection successfully closed.");
+        }
+        else
+        {
+            System.out.println("Error closing connection...");
+        }
+    }
+
+    public void continueCloseConnection() throws SQLException
+    {
+        if (connection != null)
+        {
+            connection.close();
+        }
+    }
+
+    public ResultSet getTable(String tableName)
+    {
+        if (isNoException(3))
+        {
             return resultSet;
         }
-        catch (SQLException e)
+        else
         {
-            System.out.println("ERROR 3: " + e.getMessage());
             return null;
         }
+    }
+
+    public void continueGetTable() throws SQLException
+    {
+        //resultSet = connection.getMetaData().getTables(null, null, tableName, null);
     }
 
     public boolean doesTableExist(String tableName)

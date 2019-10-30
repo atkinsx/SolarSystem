@@ -22,8 +22,7 @@ public abstract class CelestialBody
         this.readDiameter();
         this.readDistance();
         this.readVelocity();
-        this.angle = Math.random() * 360;
-        System.out.println(this.getClass().getSimpleName() + " " + this.name + " created");
+        this.sharedConstructor();
     }
 
     public CelestialBody(double diameter, double distance, double velocity, String colour, String name, CelestialBody orbiting)
@@ -34,6 +33,16 @@ public abstract class CelestialBody
         this.colour = colour;
         this.name = name;
         this.orbiting = orbiting;
+        this.sharedConstructor();
+    }
+
+    public void sharedConstructor()
+    {
+        if (orbiting != null)
+        {
+            this.distance += (orbiting.diameter / 2);
+        }
+
         this.angle = Math.random() * 360;
         System.out.println(this.getClass().getSimpleName() + " " + this.name + " created");
     }
