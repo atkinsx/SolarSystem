@@ -1,16 +1,33 @@
 import java.sql.*;
 import java.io.*;
 
+/**
+ * This class is used to connect to and read from a database.
+ * 
+ * It currently has no functionality to write to a database.
+ * 
+ * @author Xaq Atkins
+ */
 public class DBReader
 {
     private String filename;
     private Connection connection;
 
+    /**
+     * Construtor method for a DBReader
+     * @param filename The name of the database to be read
+     */
     public DBReader(String filename)
     {
         this.filename = filename;
     }
 
+    /**
+     * Attempts to connect to the relevant database, and returns whether
+     * the program successfully connected to the database
+     * 
+     * @return Whether the attempt was successful or not
+     */
     public boolean connect()
     {
         if (doesFileExist(this.filename))
@@ -35,6 +52,9 @@ public class DBReader
         }
     }
 
+    /**
+     * Closes the connection to the database
+     */
     public void closeConnection()
     {
         try
@@ -50,6 +70,11 @@ public class DBReader
         }
     }
 
+    /**
+     * Checks to see if a given file exists and returns the result
+     * @param input The name of the file to be checked
+     * @return Whether the file exists or not
+     */
     public boolean doesFileExist(String input)
     {
         File test = new File("systems/" + input + ".db");
@@ -64,7 +89,11 @@ public class DBReader
         }
     }
 
-    //MIGHT BE A BETTER WAY OF DOING THIS USING SQL COMMANDS
+    /**
+     * Gets a table from the database
+     * @param tableName The name of the table to fetch
+     * @return The named table
+     */
     public ResultSet getTable(String tableName)
     {
         try
@@ -80,6 +109,11 @@ public class DBReader
         }
     }
 
+    /**
+     * Checks to see if a table exists, and returns the result
+     * @param tableName The name of the table to check
+     * @return Whether the table is a valid existing table
+     */
     public boolean doesTableExist(String tableName)
     {
         try
@@ -103,6 +137,11 @@ public class DBReader
         return false;
     }
 
+    /**
+     * Returns the number of records (rows) in a given table
+     * @param input The table to check
+     * @return The number or records in the table
+     */
     public int getNoOfRecords(String input)
     {
         if (this.doesTableExist(input))
@@ -127,6 +166,13 @@ public class DBReader
         }
     }
 
+    /**
+     * Returns a double from a record in the database
+     * @param attribute The attribute (column) from the table
+     * @param table The table the data is stored in
+     * @param id The unique ID of the object
+     * @return The required data returned from the SQL query
+     */
     public double returnDouble(String attribute, String table, int id)
     {
         try
@@ -143,6 +189,13 @@ public class DBReader
         }
     }
     
+    /**
+     * Returns an integer from a record in the database
+     * @param attribute The attribute (column) from the table
+     * @param table The table the data is stored in
+     * @param id The unique ID of the object
+     * @return The required data returned from the SQL query
+     */
     public int returnInteger(String attribute, String table, int id)
     {
         try
@@ -159,6 +212,13 @@ public class DBReader
         }
     }
 
+    /**
+     * Returns a String from a record in the database
+     * @param attribute The attribute (column) from the table
+     * @param table The table the data is stored in
+     * @param id The unique ID of the object
+     * @return The required data returned from the SQL query
+     */
     public String returnString(String attribute, String table, int id)
     {
         try
